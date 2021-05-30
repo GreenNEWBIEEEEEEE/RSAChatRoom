@@ -95,11 +95,15 @@ class Client(Cmd):
         # noinspection PyBroadException
         try:
             buffer = self.__socket.recv(1024).decode()
+            pubKeyBuffer = self.__socket.recv(1024).decode()
             obj = json.loads(buffer)
+            obj1 = json.loads(pubKeyBuffer)
+
             if obj['id']:
                 self.__nickname = nickname
                 self.__id = obj['id']
                 self.__isLogin = True
+                self.__usersPubKey = obj1['otherUsersPubKey']
                 print('[Client] 成功登录到聊天室')
 
                 # 开启子线程用于接受数据
